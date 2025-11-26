@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Management System</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-hospital"></i>
+                HealthCare
+            </div>
+            <div class="nav-menu">
+                <a href="#dashboard" class="nav-link active">Dashboard</a>
+                <a href="#patients" class="nav-link">Patients</a>
+                <a href="#doctors" class="nav-link" onclick="showDoctors()">Doctors</a>
+                <a href="#appointments" class="nav-link" onclick="showAppointments()">Appointments</a>
+            </div>
+            <div class="nav-auth">
+                <button class="btn-login" onclick="showLogin()">Login</button>
+                <button class="btn-register" onclick="showRegister()">Register</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1>Advanced Patient Management System</h1>
+                <p>Streamline your healthcare operations with our comprehensive patient management solution. Manage appointments, track medical records, and enhance patient care.</p>
+                <div class="hero-buttons">
+                    <button class="btn-primary" onclick="showRegister()">
+                        Get Started <i class="fas fa-arrow-right"></i>
+                    </button>
+                    <button class="btn-secondary" onclick="showDemo()">
+                        View Demo
+                    </button>
+                </div>
+            </div>
+            <div class="hero-image">
+                <div class="floating-card">
+                    <i class="fas fa-user-md"></i>
+                    <h3>Doctor Management</h3>
+                    <p>Manage doctor schedules and specialties</p>
+                </div>
+                <div class="floating-card">
+                    <i class="fas fa-users"></i>
+                    <h3>Patient Records</h3>
+                    <p>Comprehensive patient information</p>
+                </div>
+                <div class="floating-card">
+                    <i class="fas fa-calendar-check"></i>
+                    <h3>Appointments</h3>
+                    <p>Easy scheduling and tracking</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="container">
+            <h2>Powerful Features</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <i class="fas fa-shield-alt"></i>
+                    <h3>Secure & Compliant</h3>
+                    <p>HIPAA compliant security measures to protect patient data</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-bolt"></i>
+                    <h3>Fast & Efficient</h3>
+                    <p>Streamlined workflows for better patient care</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-mobile-alt"></i>
+                    <h3>Responsive Design</h3>
+                    <p>Access your system from any device, anywhere</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-chart-line"></i>
+                    <h3>Analytics</h3>
+                    <p>Comprehensive reports and insights</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('loginModal')">&times;</span>
+            <h2>Login to Your Account</h2>
+            <form id="loginForm" onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <button type="submit" class="btn-primary full-width">Login</button>
+            </form>
+            <p class="modal-footer">
+                Don't have an account? <a href="#" onclick="showRegister()">Register here</a>
+            </p>
+        </div>
+    </div>
+
+    <!-- Register Modal -->
+    <div id="registerModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('registerModal')">&times;</span>
+            <h2>Create New Account</h2>
+            <form id="registerForm" onsubmit="handleRegister(event)">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="firstName">First Name</label>
+                        <input type="text" id="firstName" name="firstName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="lastName">Last Name</label>
+                        <input type="text" id="lastName" name="lastName" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="regUsername">Username</label>
+                    <input type="text" id="regUsername" name="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="regPassword">Password</label>
+                    <input type="password" id="regPassword" name="password" required>
+                </div>
+                <button type="submit" class="btn-primary full-width">Create Account</button>
+            </form>
+            <p class="modal-footer">
+                Already have an account? <a href="#" onclick="showLogin()">Login here</a>
+            </p>
+        </div>
+    </div>
+
+    <!-- Dashboard Section (Hidden by default) -->
+    <div id="dashboard" class="dashboard hidden">
+        <div class="container">
+            <h2>Dashboard</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <i class="fas fa-users"></i>
+                    <h3 id="patientCount">0</h3>
+                    <p>Total Patients</p>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-user-md"></i>
+                    <h3 id="doctorCount">0</h3>
+                    <p>Active Doctors</p>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-calendar"></i>
+                    <h3 id="appointmentCount">0</h3>
+                    <p>Today's Appointments</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
+
+    <!-- Book Appointment Modal -->
+    <div id="bookAppointmentModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('bookAppointmentModal')">&times;</span>
+            <h2>Book New Appointment</h2>
+            <form id="appointmentForm" onsubmit="handleBookAppointment(event)">
+                <div class="form-group">
+                    <label for="appointmentDoctor">Select Doctor</label>
+                    <select id="appointmentDoctor" name="doctorId" required>
+                        <option value="">Loading doctors...</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="appointmentDate">Date</label>
+                    <input type="date" id="appointmentDate" name="appointmentDate" required>
+                </div>
+                <div class="form-group">
+                    <label for="appointmentTime">Time</label>
+                    <input type="time" id="appointmentTime" name="appointmentTime" required>
+                </div>
+                <div class="form-group">
+                    <label for="appointmentReason">Reason for Visit</label>
+                    <textarea id="appointmentReason" name="reason" rows="3" placeholder="Describe your symptoms or reason for visit..." required></textarea>
+                </div>
+                <button type="submit" class="btn-primary full-width">Book Appointment</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Appointments Section -->
+    <div id="appointments" class="appointments-section hidden">
+        <div class="container">
+            <div class="section-header">
+                <h2>My Appointments</h2>
+                <button class="btn-primary" onclick="showBookAppointment()">
+                    <i class="fas fa-plus"></i> Book New Appointment
+                </button>
+            </div>
+            <div class="appointments-list" id="appointmentsList">
+                <!-- Appointments will be loaded here -->
+            </div>
+        </div>
+    </div>
